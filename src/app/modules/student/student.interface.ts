@@ -38,6 +38,7 @@ export interface TStudent {
   localGuardian: TLocalGuardian;
   profileImg?: string; // Profile image is optional
   isActive?: 'Active' | 'Blocked'; // Corrected case for consistency
+  isDeleated:boolean
 }
 
 

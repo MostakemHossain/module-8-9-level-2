@@ -98,7 +98,6 @@ const studentSchema = new Schema<TStudent,StudentModel>({
   },
   password: {
     type: String,
-    unique: true,
     required: [true, "Student Password is required."],
     maxlength:[20,'Password cannot be more than 20 characters']
    
@@ -160,8 +159,12 @@ const studentSchema = new Schema<TStudent,StudentModel>({
     type: String,
     enum: ['Active', 'Blocked'],
     default: 'Active',
-    trim: true,
+    
   },
+  isDeleated:{
+    type:Boolean,
+    default:false
+  }
 });
 
 
@@ -170,16 +173,41 @@ studentSchema.pre('save',async function(next){
   // console.log(this,'pre hook: we will save the data');
   // hashing password and save into db
   // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user= this;
+  const user= this; // current doc
   user.password= await bcrypt.hash(user.password,Number(config.bcrypt_salt_rounds))
   next();
   
 })
 
 // post save middleWare/hook
-studentSchema.post('save',function(){
+studentSchema.post('save',function(doc,next){
   // console.log(this,'post hook: we  saved our data');
+  doc.password=""
+  next();
   
+})
+
+
+// Query middleWare
+
+studentSchema.pre('find',function(next){
+  this.find({isDeleated: { $ne:true}})
+
+
+  next();
+})
+studentSchema.pre('findOne',function(next){
+  this.find({isDeleated: { $ne:true}})
+
+
+  next();
+})
+
+studentSchema.pre('aggregate',function(next){
+  this.pipeline().unshift({$match:{isDeleated:{$ne: true}}})
+
+
+  next();
 })
 
 
