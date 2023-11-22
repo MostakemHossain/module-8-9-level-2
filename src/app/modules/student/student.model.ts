@@ -10,12 +10,12 @@ const userNameSchema = new Schema<UserName>({
     required: [true, "First name is required."],
     maxlength: [20, "First name cannot be more than 20 characters"],
     trim: true,
-    validate: {
-      validator: function (value: string) {
-        const res = value.charAt(0).toUpperCase() + value.slice(1);
-        return value === res;
-      },
-    },
+    // validate: {
+    //   validator: function (value: string) {
+    //     const res = value.charAt(0).toUpperCase() + value.slice(1);
+    //     return value === res;
+    //   },
+    // },
   },
   middleName: {
     type: String,
@@ -106,7 +106,7 @@ const studentSchema = new Schema<Student>({
       message: '{VALUE} is not valid',
     },
     required: [true, 'Gender is required.'],
-    trim: true,
+    
   },
   dateOfBirth: { type: String, trim: true },
   email: {
@@ -114,10 +114,10 @@ const studentSchema = new Schema<Student>({
     unique: true,
     required: [true, 'Email is required.'],
     trim: true,
-    validate:{
-      validator:(value:string)=> validator.isEmail(value),
-      message:"{VALUE} is not a valid Email",
-    }
+    // validate:{
+    //   validator:(value:string)=> validator.isEmail(value),
+    //   message:"{VALUE} is not a valid Email",
+    // }
   },
   contactNo: {
     type: String,

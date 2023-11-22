@@ -25,14 +25,14 @@ export interface LocalGuardian {
 export interface Student {
   id: string;
   name: UserName;
-  gender: 'Male' | 'Female';
+  gender: 'Male' | 'Female'| 'other';
   dateOfBirth?: string;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'O+' | 'O-' | 'AB+' | 'AB-';
-  presentAddress?: string;
-  permanentAddress: string; // Corrected the spelling of 'permanent'
+  presentAddress: string;
+  permanentAddress?: string; // Corrected the spelling of 'permanent'
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImg?: string; // Profile image is optional
