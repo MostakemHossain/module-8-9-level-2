@@ -1,36 +1,40 @@
-export type userName = {
+// student.interface.ts
+
+export interface UserName {
   firstName: string;
-  middleName: string;
+  middleName?: string; // Middle name is optional
   lastName: string;
-};
-export type Guardian = {
+}
+
+export interface Guardian {
   fatherName: string;
   fatherOccupation: string;
-  fatherContactNO: string;
+  fatherContactNo: string;
   motherName: string;
   motherOccupation: string;
-  motherContactNO: string;
-};
-export type LocalGuardian = {
+  motherContactNo: string;
+}
+
+export interface LocalGuardian {
   name: string;
   occupation: string;
   contactNo: string;
   address: string;
-};
+}
 
-export type Student = {
+export interface Student {
   id: string;
-  name: userName;
+  name: UserName;
   gender: 'Male' | 'Female';
   dateOfBirth?: string;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'O+' | 'O-' | 'AB+' | 'AB-';
-  presentAddress: string;
-  parmanentAddress: string;
-  gurdian: Guardian;
+  presentAddress?: string;
+  permanentAddress: string; // Corrected the spelling of 'permanent'
+  guardian: Guardian;
   localGuardian: LocalGuardian;
-  profileImg: string;
-   isActive?: 'active' | 'blocked';
-};
+  profileImg?: string; // Profile image is optional
+  isActive?: 'Active' | 'Blocked'; // Corrected case for consistency
+}

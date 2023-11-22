@@ -1,23 +1,21 @@
-import { model, Schema } from 'mongoose';
-import {
-  Guardian,
-  LocalGuardian,
-  Student,
-  userName
-} from './student.interface';
+// student.model.ts
 
-const userNameSchema = new Schema<userName>({
+import { model, Schema } from 'mongoose';
+import validator from 'validator';
+import { Guardian, LocalGuardian, Student, UserName } from './student.interface';
+
+const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
-    required: [true, "First name is Required."],
-    maxlength: [20, "First name can not be more than 20 Characters"],
+    required: [true, "First name is required."],
+    maxlength: [20, "First name cannot be more than 20 characters"],
     trim: true,
-    validate:{
-      validator:function(value:string){
-        const res= value.charAt(0).toUpperCase()+value.slice(1);
-        return value===res;
-      }
-    }
+    validate: {
+      validator: function (value: string) {
+        const res = value.charAt(0).toUpperCase() + value.slice(1);
+        return value === res;
+      },
+    },
   },
   middleName: {
     type: String,
@@ -25,40 +23,44 @@ const userNameSchema = new Schema<userName>({
   },
   lastName: {
     type: String,
-    required: [true, "Last name is Required."],
+    required: [true, "Last name is required."],
     trim: true,
+    validate: {
+      validator: (value: string) => validator.isAlpha(value),
+      message: "{VALUE} is not valid",
+    },
   },
 });
 
 const guardianSchema = new Schema<Guardian>({
   fatherName: {
     type: String,
-    required: [true, "Father name is Required."],
+    required: [true, "Father name is required."],
     trim: true,
   },
   fatherOccupation: {
     type: String,
-    required: [true, "Father Occupation is Required."],
+    required: [true, "Father occupation is required."],
     trim: true,
   },
-  fatherContactNO: {
+  fatherContactNo: {
     type: String,
-    required: [true, "Father ContactNo is Required."],
+    required: [true, "Father contact number is required."],
     trim: true,
   },
   motherName: {
     type: String,
-    required: [true, "Mother name is Required."],
+    required: [true, "Mother name is required."],
     trim: true,
   },
   motherOccupation: {
     type: String,
-    required: [true, "Mother Occupation is Required."],
+    required: [true, "Mother occupation is required."],
     trim: true,
   },
-  motherContactNO: {
+  motherContactNo: {
     type: String,
-    required: [true, "Mother ContactNo is Required."],
+    required: [true, "Mother contact number is required."],
     trim: true,
   },
 });
@@ -90,7 +92,7 @@ const studentSchema = new Schema<Student>({
   id: {
     type: String,
     unique: true,
-    required: [true, "Student ID is Required."],
+    required: [true, "Student ID is required."],
     trim: true,
   },
   name: {
@@ -112,6 +114,10 @@ const studentSchema = new Schema<Student>({
     unique: true,
     required: [true, 'Email is required.'],
     trim: true,
+    validate:{
+      validator:(value:string)=> validator.isEmail(value),
+      message:"{VALUE} is not a valid Email",
+    }
   },
   contactNo: {
     type: String,
@@ -132,20 +138,20 @@ const studentSchema = new Schema<Student>({
     trim: true,
   },
   presentAddress: { type: String, required: [true, 'Present address is required.'], trim: true },
-  permanentAddress: { type: String, required: [true, 'Permanent address is required.'], trim: true },
+  permanentAddress: { type: String },
   guardian: {
     type: guardianSchema,
-    required: true,
+   
   },
   localGuardian: {
     type: localGuardianSchema,
-    required: true,
+  
   },
   profileImg: { type: String, trim: true },
   isActive: {
     type: String,
-    enum: ['Active', 'blocked'],
-    default: 'active',
+    enum: ['Active', 'Blocked'],
+    default: 'Active',
     trim: true,
   },
 });
