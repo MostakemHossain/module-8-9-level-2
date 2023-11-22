@@ -1,8 +1,10 @@
 // student.model.ts
 
+import bcrypt from "bcrypt";
 import { model, Schema } from 'mongoose';
 import validator from 'validator';
-import { StudentModel, studentModel, TGuardian, TLocalGuardian, TStudent, UserName } from './student.interface';
+import config from "../../config";
+import { StudentModel, TGuardian, TLocalGuardian, TStudent, UserName } from './student.interface';
 const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
@@ -94,6 +96,13 @@ const studentSchema = new Schema<TStudent,StudentModel>({
     required: [true, "Student ID is required."],
     trim: true,
   },
+  password: {
+    type: String,
+    unique: true,
+    required: [true, "Student Password is required."],
+    maxlength:[20,'Password cannot be more than 20 characters']
+   
+  },
   name: {
     type: userNameSchema,
     required: true,
@@ -154,6 +163,32 @@ const studentSchema = new Schema<TStudent,StudentModel>({
     trim: true,
   },
 });
+
+
+// pre save middleWare/hook: will work on save function and create()
+studentSchema.pre('save',async function(next){
+  // console.log(this,'pre hook: we will save the data');
+  // hashing password and save into db
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user= this;
+  user.password= await bcrypt.hash(user.password,Number(config.bcrypt_salt_rounds))
+  next();
+  
+})
+
+// post save middleWare/hook
+studentSchema.post('save',function(){
+  // console.log(this,'post hook: we  saved our data');
+  
+})
+
+
+
+
+
+
+
+
 
 // creating a custom static method
 
