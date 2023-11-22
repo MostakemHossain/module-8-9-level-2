@@ -2,7 +2,7 @@
 
 import { model, Schema } from 'mongoose';
 import validator from 'validator';
-import { Guardian, LocalGuardian, Student, UserName } from './student.interface';
+import { studentMethods, studentModel, TGuardian, TLocalGuardian, TStudent, UserName } from './student.interface';
 
 const userNameSchema = new Schema<UserName>({
   firstName: {
@@ -32,7 +32,7 @@ const userNameSchema = new Schema<UserName>({
   },
 });
 
-const guardianSchema = new Schema<Guardian>({
+const guardianSchema = new Schema<TGuardian>({
   fatherName: {
     type: String,
     required: [true, "Father name is required."],
@@ -65,7 +65,7 @@ const guardianSchema = new Schema<Guardian>({
   },
 });
 
-const localGuardianSchema = new Schema<LocalGuardian>({
+const localGuardianSchema = new Schema<TLocalGuardian>({
   name: {
     type: String,
     required: [true, 'Local guardian name is required.'],
@@ -88,7 +88,7 @@ const localGuardianSchema = new Schema<LocalGuardian>({
   },
 });
 
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent,studentModel,studentMethods>({
   id: {
     type: String,
     unique: true,
@@ -156,4 +156,11 @@ const studentSchema = new Schema<Student>({
   },
 });
 
-export const StudentModel = model<Student>('Student', studentSchema);
+
+// creating a custom instance method
+studentSchema.methods.isUserExists= async function(id:string){
+  const existingUser= await Student.findOne({id})
+  return existingUser;
+}
+
+export const Student = model<TStudent,studentModel>('Student', studentSchema);
