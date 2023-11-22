@@ -1,7 +1,5 @@
 // student.interface.ts
 
-import { Model } from "mongoose";
-
 export interface UserName {
   firstName: string;
   middleName?: string; // Middle name is optional
@@ -42,8 +40,18 @@ export interface TStudent {
 }
 
 
-export type studentMethods={
-  isUserExists(id:string): Promise<TStudent| null>
+// for creating static
+
+export interface StudentModel extends Model<TStudent>{
+ isUserExists(id:string): Promise<TStudent| null>
 }
 
-export type  studentModel = Model<TStudent,Record<string, never>,studentMethods>
+
+
+////--- for creating instance ---///
+
+// export type studentMethods={
+//   isUserExists(id:string): Promise<TStudent| null>
+// }
+
+// export type  studentModel = Model<TStudent,Record<string, never>,studentMethods>
