@@ -5,7 +5,7 @@
 import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
-import { UserRoutes } from './app/modules/user/user.route';
+import router from './app/routes';
 const app: Application = express();
 
 //parser
@@ -14,12 +14,12 @@ app.use(cors());
 
 // application routes
 // app.use('/api/v1/students', StudentRoutes);
-app.use('/api/v1/users', UserRoutes);
+app.use('/api/v1',router);
 
-app.get('/', (req: Request, res: Response) => {
-  const a = 10;
-  res.send(a);
-});
+const test= (req: Request, res: Response) => {
+  res.send("hello")
+};
+app.get('/',test);
 
 
 //global error handler
