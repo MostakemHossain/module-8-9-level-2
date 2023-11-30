@@ -26,7 +26,7 @@ const userNameValidationSchema = z.object({
       password: z.string().max(20),
      student:z.object({
       name: userNameValidationSchema,
-      gender: z.enum(['Male', 'Female']),
+      gender: z.enum(['Male', 'Female','Other']),
       dateOfBirth: z.string().optional(),
       email: z.string().email(),
       contactNo: z.string().min(1),
@@ -37,6 +37,7 @@ const userNameValidationSchema = z.object({
       guardian: guardianValidationSchema,
       localGuardian: localGuardianValidationSchema,
       profileImg: z.string().optional(),
+      admissionSemester:z.string(),
      })
    
     }),

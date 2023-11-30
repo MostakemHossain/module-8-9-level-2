@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // student.interface.ts
 
 import { Model, Types } from "mongoose";
@@ -29,17 +30,18 @@ export interface TStudent {
   user:Types.ObjectId
   password: string,
   name: UserName;
-  gender: 'Male' | 'Female'| 'other';
-  dateOfBirth?: string;
+  gender: 'Male' | 'Female'| 'Other';
+  dateOfBirth?: Date;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'O+' | 'O-' | 'AB+' | 'AB-';
   presentAddress: string;
-  permanentAddress?: string; // Corrected the spelling of 'permanent'
+  permanentAddress?: string; 
   guardian: TGuardian;
   localGuardian: TLocalGuardian;
-  profileImg?: string; // Profile image is optional
+  profileImg?: string; 
+  admissionSemester:Types.ObjectId,
   isDeleated:boolean
 }
 

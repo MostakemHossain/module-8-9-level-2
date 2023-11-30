@@ -107,13 +107,13 @@ const studentSchema = new Schema<TStudent,StudentModel>({
   gender: {
     type: String,
     enum: {
-      values: ['Male', 'Female'],
+      values: ['Male', 'Female','Other'],
       message: '{VALUE} is not valid',
     },
     required: [true, 'Gender is required.'],
     
   },
-  dateOfBirth: { type: String, trim: true },
+  dateOfBirth: { type: Date, trim: true },
   email: {
     type: String,
     unique: true,
@@ -153,6 +153,11 @@ const studentSchema = new Schema<TStudent,StudentModel>({
   
   },
   profileImg: { type: String, trim: true },
+  admissionSemester:{
+    type: Schema.Types.ObjectId,
+    ref:'AcademicSemester',
+
+  },
   isDeleated:{
     type:Boolean,
     default:false
