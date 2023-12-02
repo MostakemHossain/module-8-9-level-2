@@ -1,7 +1,9 @@
 // student.model.ts
 
+import httpStatus from 'http-status';
 import { model, Schema } from 'mongoose';
 import validator from 'validator';
+import appError from '../../../errors/AppError';
 import { StudentModel, TGuardian, TLocalGuardian, TStudent, UserName } from './student.interface';
 const userNameSchema = new Schema<UserName>({
   firstName: {
@@ -179,6 +181,18 @@ const studentSchema = new Schema<TStudent,StudentModel>({
   })
 
 
+  studentSchema.pre('findOneAndUpdate',async function(next){
+    const query= this.getQuery();
+    const isDepartmentExists= await Student.findOne(
+        query
+    )
+    if(!isDepartmentExists){
+        throw new appError(httpStatus.NOT_FOUND,"Student Id is not exists");
+    }
+    next();
+
+} )
+
 
 
 
@@ -212,12 +226,20 @@ studentSchema.pre('aggregate',function(next){
 
 
 
+
+
+
+
+
+
+
 // creating a custom static method
 
 studentSchema.statics.isUserExists= async function(id:string){
   const existingUser= await Student.findOne({id});
   return existingUser;
 }
+
 
 
 export const Student = model<TStudent,StudentModel>('Student', studentSchema);
