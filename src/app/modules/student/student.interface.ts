@@ -42,6 +42,7 @@ export interface TStudent {
   localGuardian: TLocalGuardian;
   profileImg?: string; 
   admissionSemester:Types.ObjectId,
+  academicDepartment:Types.ObjectId,
   isDeleated:boolean
 }
 

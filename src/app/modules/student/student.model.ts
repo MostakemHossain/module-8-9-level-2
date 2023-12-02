@@ -158,10 +158,15 @@ const studentSchema = new Schema<TStudent,StudentModel>({
     ref:'AcademicSemester',
 
   },
+  academicDepartment:{
+    type:Schema.Types.ObjectId,
+    ref:'AcademicDepartment',
+  },
   isDeleated:{
     type:Boolean,
     default:false
-  }
+  },
+  
 },{
   toJSON:{
     virtuals:true,

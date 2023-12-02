@@ -1,3 +1,5 @@
+import httpStatus from "http-status";
+import appError from "../../../errors/AppError";
 import config from "../../config";
 import { AcademicSemester } from "../AcademicSemester/academicSemester.model";
 import { TStudent } from "../student/student.interface";
@@ -24,7 +26,7 @@ const createStudentIntoDB = async (password: string,payload: TStudent) => {
     const admissionSemester = await AcademicSemester.findById(payload.admissionSemester);
     
     if(!admissionSemester){
-      throw new Error("error")
+      throw new appError(httpStatus.NOT_FOUND,"error")
       }
 
 
